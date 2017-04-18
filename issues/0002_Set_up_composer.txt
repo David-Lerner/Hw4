@@ -1,0 +1,3 @@
+Write composer json file
+Assigned to: David Lerner
+Description: Write the contents of composer.json file specifying authors, mentioning monolog package dependency, listing the namespace to folder structure mapping using psr-4 for autoloading classes.

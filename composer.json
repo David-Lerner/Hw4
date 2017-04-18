@@ -1,0 +1,26 @@
+{
+    "name": "complete_sudoku/hw4",
+    "type": "project",
+    "authors": [
+        {
+            "name": "David Lerner",
+            "email": "dale7642@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "1.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "complete_sudoku\\hw4\\": "",
+            "complete_sudoku\\hw4\\controllers\\": "src/controllers/",
+            "complete_sudoku\\hw4\\views\\": "src/views/",
+            "complete_sudoku\\hw4\\views\\elements\\": "src/views/elements/",
+            "complete_sudoku\\hw4\\views\\helpers\\": "src/views/helpers/",
+            "complete_sudoku\\hw4\\views\\layouts\\": "src/views/layouts/",
+            "complete_sudoku\\hw4\\models\\": "src/models/",
+            "complete_sudoku\\hw4\\configs\\": "src/configs/"
+        }
+    }
+
+}
