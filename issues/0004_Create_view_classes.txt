@@ -1,0 +1,3 @@
+Create View Classes
+Assigned to: Nelson Dornelas
+Description: Create the PHP class files that define the views and the header/footer layouts, namely LandingView.php, EditView.php, ReadView.php, HeaderLayout.php, and FooterLayout.php.
