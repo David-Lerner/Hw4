@@ -17,6 +17,7 @@ if (!$conn) {
 // Create database
 $sql = 'DROP DATABASE IF EXISTS '.Config::DB_NAME.';';
 mysqli_query($conn, $sql);
+
 $sql = 'CREATE DATABASE '.Config::DB_NAME.';';
 if (mysqli_query($conn, $sql)) {
     echo "Database created successfully";
@@ -24,5 +25,20 @@ if (mysqli_query($conn, $sql)) {
     echo "Error creating database: " . mysqli_error($conn);
 }
 
+mysqli_select_db($conn, Config::DB_NAME);
+
+//create tables
+$sql = 'DROP TABLE IF EXISTS Sheet;';
+mysqli_query($sql);
+
+$sql = 'CREATE TABLE Sheet (sheet_id INT AUTO_INCREMENT, sheet_name VARCHAR(30), sheet_data TEXT, PRIMARY KEY (sheet_id));';
+mysqli_query($sql);
+
+$sql = 'DROP TABLE IF EXISTS Sheet_Codes;';
+mysqli_query($sql);
+
+$sql = 'CREATE TABLE Sheet_Codes (sheet_id INT, hash_code char(32), code_type VARCHAR(30), FOREIGN KEY (sheet_id) REFERENCES Sheet(sheet_id) ON DELETE CASCADE)';
+
 mysqli_close($conn);
+echo "Database created successfully";
 ?>
