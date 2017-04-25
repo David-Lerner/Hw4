@@ -28,16 +28,17 @@ if (mysqli_query($conn, $sql)) {
 mysqli_select_db($conn, Config::DB_NAME);
 
 //create tables
-$sql = 'DROP TABLE IF EXISTS Sheet;';
-mysqli_query($sql);
+$drop_table_sheet = 'DROP TABLE IF EXISTS Sheet;';
+mysqli_query($conn, $drop_table_sheet);
 
-$sql = 'CREATE TABLE Sheet (sheet_id INT AUTO_INCREMENT, sheet_name VARCHAR(30), sheet_data TEXT, PRIMARY KEY (sheet_id));';
-mysqli_query($sql);
+$create_table_sheet = 'CREATE TABLE Sheet (sheet_id INT AUTO_INCREMENT, sheet_name VARCHAR(30), sheet_data TEXT, PRIMARY KEY (sheet_id));';
+mysqli_query($conn, $create_table_sheet);
 
-$sql = 'DROP TABLE IF EXISTS Sheet_Codes;';
-mysqli_query($sql);
+$drop_table_sheet_codes = 'DROP TABLE IF EXISTS Sheet_Codes;';
+mysqli_query($conn, $drop_table_sheet_codes);
 
-$sql = 'CREATE TABLE Sheet_Codes (sheet_id INT, hash_code char(32), code_type VARCHAR(30), FOREIGN KEY (sheet_id) REFERENCES Sheet(sheet_id) ON DELETE CASCADE)';
+$create_table_sheet_codes = 'CREATE TABLE Sheet_Codes (sheet_id INT, hash_code char(32), code_type VARCHAR(30), FOREIGN KEY (sheet_id) REFERENCES Sheet(sheet_id) ON DELETE CASCADE)';
+mysqli_query($conn, $create_table_sheet_codes);
 
 mysqli_close($conn);
 echo "Database created successfully";
