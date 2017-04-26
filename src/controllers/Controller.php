@@ -1,8 +1,8 @@
 <?php
 namespace complete_sudoku\hw4\controllers;
 
-abstract class Controller
+class Controller
 {
-    abstract public function mainAction();
+    
 }
 ?>

@@ -5,14 +5,15 @@ use complete_sudoku\hw4\views as V;
 use complete_sudoku\hw4\models as M;
 use complete_sudoku\hw4\controllers\Controller;
 
-class ReadController extends Controller
+class MainController extends Controller
 {
 
-    public function mainAction()
+    public function view()
     {
         $data = []; //must populate
-        $views=new V\ReadView();
+        $views=new V\LandingView();
         $views->render($data);
     }
+    
 }
 ?>
