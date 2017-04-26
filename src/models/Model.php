@@ -1,25 +1,24 @@
 <?php
-namespace complete_sudoku\models;
+namespace complete_sudoku\hw4\models;
 
 use complete_sudoku\configs\Config;
 
 class Model {
-    public $connection;
+    public $conn;
 
     public function __construct() {
-	    $this->initiateConnection();
+	$this->initiateConnection();
     }
 
     public function initiateConnection() {
-	    $this->connection = mysqli_connect(Config::DB_HOST,Config::DB_USER,Config::DB_PASSWORD,Config::DB_NAME,Config::DB_PORT,Config::DB_SOCKET);
-	    if (!$this->connection) {
-            return false;
+	$this->conn = new mysqli(Config::DB_HOST,Config::DB_USER,Config::DB_PASSWORD,Config::DB_NAME,Config::DB_PORT,Config::DB_SOCKET);
+        if ($this->conn->connect_error) {
+            die("Connection failed: " . $this->conn->connect_error);
         }
-        return true;
     }
 
     public function closeConnection() {
-	    mysqli_close($this->connection);
+	$this->conn->close();
     }
 }
 ?>

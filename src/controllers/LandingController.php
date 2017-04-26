@@ -17,6 +17,8 @@ class LandingController extends Controller
     
     public function submit()
     {
+        $sheetModel = new M\SheetModel();
+        $sheetCodeModel = new M\SheetCodeModel();
         $data = []; //must populate
         $views=new V\LandingView();
         $views->render($data);

@@ -10,6 +10,7 @@ class ApiController extends Controller
 
     public function view()
     {
+        $sheetModel = new M\SheetModel();
         $data = []; //must populate
         $views=new V\LandingView();
         $views->render($data);

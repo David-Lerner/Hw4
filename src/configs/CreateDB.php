@@ -31,13 +31,13 @@ mysqli_select_db($conn, Config::DB_NAME);
 $drop_table_sheet = 'DROP TABLE IF EXISTS Sheet;';
 mysqli_query($conn, $drop_table_sheet);
 
-$create_table_sheet = 'CREATE TABLE Sheet (sheet_id INT AUTO_INCREMENT, sheet_name VARCHAR(30), sheet_data TEXT, PRIMARY KEY (sheet_id));';
+$create_table_sheet = 'CREATE TABLE Sheet (sheet_id INT AUTO_INCREMENT, sheet_name VARCHAR(30) UNIQUE, sheet_data TEXT, PRIMARY KEY (sheet_id));';
 mysqli_query($conn, $create_table_sheet);
 
 $drop_table_sheet_codes = 'DROP TABLE IF EXISTS Sheet_Codes;';
 mysqli_query($conn, $drop_table_sheet_codes);
 
-$create_table_sheet_codes = 'CREATE TABLE Sheet_Codes (sheet_id INT, hash_code char(32), code_type VARCHAR(30), FOREIGN KEY (sheet_id) REFERENCES Sheet(sheet_id) ON DELETE CASCADE)';
+$create_table_sheet_codes = 'CREATE TABLE Sheet_Codes (sheet_id INT, hash_code char(32) UNIQUE, code_type VARCHAR(30), FOREIGN KEY (sheet_id) REFERENCES Sheet(sheet_id) ON DELETE CASCADE)';
 mysqli_query($conn, $create_table_sheet_codes);
 
 mysqli_close($conn);

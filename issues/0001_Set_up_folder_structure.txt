@@ -1,4 +1,3 @@
 Set_up_folder_structure
-
 Assigned to: David Lerner
 Description: Set up folder structure, config files, and base class files as required in the Hw3/Hw4 descriptions

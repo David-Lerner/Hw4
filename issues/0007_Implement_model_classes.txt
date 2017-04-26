@@ -1,0 +1,4 @@
+Implement model classes for handling DB i/o
+Assigned to: David Lerner
+Description: Create and implement SheetModel.php and SheetCodeModel.php
+

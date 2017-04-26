@@ -10,6 +10,7 @@ class MainController extends Controller
 
     public function view()
     {
+        $sheetCodeModel = new M\SheetCodeModel();
         $data = []; //must populate
         $views=new V\LandingView();
         $views->render($data);
