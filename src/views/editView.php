@@ -2,6 +2,7 @@
 namespace complete_sudoku\hw4\views;
 
 use complete_sudoku\hw4\views\layouts as L;
+use complete_sudoku\hw4\configs\Config;
 
 //use complete_sudoku\hw4\views\helpers as H;
 class editView extends View {
@@ -17,18 +18,17 @@ class editView extends View {
     function render($data)
     {
         $sheet = $data["sheet"];
-        
         $this->header_display->render($data);
         ?>
-        <h1><a href='./index.php'><?=$data["name"]?></a></br><?=$sheet["sheet_name"]?></h1>
-        <form>       
-        <label class="input-labels" for="edit-url">Edit Url:</label>
-        <input type="text" name="edit-url" class="edit-url" />
-        <label class="input-labels" for="read-url">Read Url:</label>
-        <input type="text" name="read-url" class="read-url" />
-        <label class="input-labels" for="file-url">File Url:</label>
-        <input type="text" name="file-url" class="file-url" />
-        </form>
+        <h1><a href='./index.php'><?=$data["name"]?></a>: <?=$sheet["sheet_name"]?></h1>
+        <div>Edit Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["editHash"]?>"/></span></div>
+        <div>Read Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["readHash"]?>"/></span></div>
+        <div>File Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["fileHash"]?>"/></span></div>
+        <div id="spreadsheet_edit"></div>
+        <script>
+        editSheet = new Spreadsheet("spreadsheet_edit", <?php echo json_encode($sheet["sheet_data"]); ?>, {"mode":"write"}); //editable
+        editSheet.draw();
+        </script>
         <?php
         $this->footer_display->render($data);
     }
