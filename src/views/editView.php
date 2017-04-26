@@ -20,7 +20,7 @@ class editView extends View {
         
         $this->header_display->render($data);
         ?>
-        <h1><a href='./index.php'><?=$data["name"]?></a></br><?=$sheet["name"]?></h1>
+        <h1><a href='./index.php'><?=$data["name"]?></a></br><?=$sheet["sheet_name"]?></h1>
         <form>       
         <label class="input-labels" for="edit-url">Edit Url:</label>
         <input type="text" name="edit-url" class="edit-url" />
