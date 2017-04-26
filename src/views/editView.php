@@ -26,7 +26,9 @@ class editView extends View {
         <div>File Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["fileHash"]?>"/></span></div>
         <div id="spreadsheet_edit"></div>
         <script>
-        editSheet = new Spreadsheet("spreadsheet_edit", <?php echo json_encode($sheet["sheet_data"]); ?>, {"mode":"write"}); //editable
+        editSheet = new Spreadsheet("spreadsheet_edit", 
+            <?php echo json_encode($sheet["sheet_data"]); ?>, 
+            {"mode":"write", "data_name":"<?=$sheet["sheet_name"]?>"}); //editable
         editSheet.draw();
         </script>
         <?php

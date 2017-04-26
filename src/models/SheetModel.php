@@ -3,6 +3,7 @@ namespace complete_sudoku\hw4\models;
 
 class SheetModel extends Model
 {
+    //not used
     public function getSheetById($id) {
         $sheet = [];
         $stmt = $this->conn->prepare("SELECT sheet_name, sheet_data FROM Sheet WHERE sheet_id = ?;");
@@ -44,8 +45,8 @@ class SheetModel extends Model
         return $last_id;
     }
     
-    public function updateSheet($name, $pair, $value) {
-        $json = json_encode($data);
+    //not used
+    public function updateSheetbyIndex($name, $pair, $value) {
         $stmt = $this->conn->prepare("SELECT sheet_data FROM Sheet WHERE sheet_name = ?;");
         $stmt->bind_param("s", $name);
         $stmt->execute();
@@ -59,6 +60,14 @@ class SheetModel extends Model
             $stmt->bind_param("ss", $json, $name);
             $stmt->execute();
         } 
+        $stmt->close();
+    }
+    
+    public function updateSheet($name, $data) {
+        $json = json_encode($data);
+        $stmt = $this->conn->prepare("UPDATE Sheet SET sheet_data = ? WHERE sheet_name = ?;");
+        $stmt->bind_param("ss", $json, $name);
+        $stmt->execute();
         $stmt->close();
     }
 

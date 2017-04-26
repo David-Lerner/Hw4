@@ -105,7 +105,10 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             table += "</tr>";
         }
         table += "</table></div>";
-        container.innerHTML = table;
+        
+        //request status
+        var status = "<div id='"+spreadsheet_id+"-status'><br/></div>";
+        container.innerHTML = status + table;
     }
     /**
      * Calculates the value of a cell expression in a spreadsheet. Currently,
@@ -251,6 +254,7 @@ function Spreadsheet(spreadsheet_id, supplied_data)
         var column = target.cellIndex - 1;
         var length = data.length;
         var width = data[0].length;
+        var updated = false;
         if (row >= 0 && column >= 0) {
             var new_value = prompt(self.letterRepresentation(column) +
                 (row + 1), data[row][column]);
@@ -259,6 +263,7 @@ function Spreadsheet(spreadsheet_id, supplied_data)
                 data_elt = document.getElementById(self.data_id);
                 data_elt.value = JSON.stringify(data);
                 event.target.innerHTML = new_value;
+                updated = true;
             }
         } else if (type == 'add' && row == -1 && column >= 0) {
             for (var i = 0; i < length; i++) {
@@ -270,6 +275,7 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             data_elt = document.getElementById(self.data_id);
             data_elt.value = JSON.stringify(data);
             self.draw();
+            updated = true;
         } else if (type == 'add' && row >= 0 && column == -1) {
             data[length] = [];
             for (var i = length; i > row + 1; i--) {
@@ -283,6 +289,7 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             data_elt = document.getElementById(self.data_id);
             data_elt.value = JSON.stringify(data);
             self.draw();
+            updated = true;
         } else if (type == 'delete' && row == -1 && column >= 0) {
             for (var i = 0; i < length; i++) {
                 for (var j = column ; j < width - 1; j++) {
@@ -293,6 +300,7 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             data_elt = document.getElementById(self.data_id);
             data_elt.value = JSON.stringify(data);
             self.draw();
+            updated = true;
         } else if (type == 'delete' && row >= 0 && column == -1) {
             for (var i = row; i < length - 1; i++) {
                     data[i] = data[i + 1];
@@ -301,6 +309,23 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             data_elt = document.getElementById(self.data_id);
             data_elt.value = JSON.stringify(data);
             self.draw();
+            updated = true;
+        }
+        if (updated) {
+            document.getElementById(spreadsheet_id+"-status").innerHTML = "Sending Request...";
+            request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                switch(request.readyState) {
+                    case 1:
+                        document.getElementById(spreadsheet_id+"-status").innerHTML = "Sending Request...";
+                        break;
+                    case 4:
+                        document.getElementById(spreadsheet_id+"-status").innerHTML = request.responseText;
+                        break;
+                }
+            };
+            request.open("GET", "index.php?c=api&m=update&arg1="+self.data_name+"&arg2="+encodeURI(JSON.stringify(data)), true);
+            request.send();
         }
         event.stopPropagation();
         event.preventDefault();
