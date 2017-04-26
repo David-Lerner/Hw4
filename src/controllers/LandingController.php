@@ -25,9 +25,7 @@ class LandingController extends Controller
             $sheetModel = new M\SheetModel();
             $sheetCodeModel = new M\SheetCodeModel();
             
-            //print_r($input);
             $sheet = $sheetCodeModel->getSheetAndTypeByCode($input);
-            //print_r($sheet);
             if (isset($sheet["sheet_name"])) {
                 header("Location:" . Config::BASE_URL . "\index.php?c=main&m=view&arg1=" . $input);
             } else {

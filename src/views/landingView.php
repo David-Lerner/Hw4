@@ -31,7 +31,7 @@ class landingView extends View{
             if (x === "") {
                 alert("Field is empty");
                 return false;
-            } else if (/^[a-z0-9]+$/i.test( x )) {
+            } else if (!/^[a-z0-9]+$/i.test( x )) {
                 alert("Characters must be alphanumeric");
                 return false;
             }
