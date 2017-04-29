@@ -161,6 +161,34 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             out[0] = self.skipWhitespace(cell_expression, sub_out[0]);
             out[1] = - sub_out[1];
             return out;
+        } else if (cell_expression.indexOf("avg(") === location) {
+            var str = cell_expression.substring(location+4, cell_expression.indexOf(")",location+4));
+            var ops = str.split(":");
+            if (ops.length !== 2) {
+                return out;
+            }
+            var arg = [];
+            arg[0] = self.cellNameAsRowColumn(ops[0].toString().trim());
+            arg[1] = self.cellNameAsRowColumn(ops[1].toString().trim());
+            var rowOffset = Math.min(arg[0][0],arg[1][0]);
+            var colOffset = Math.min(arg[0][1],arg[1][1]);
+            var height = Math.abs(arg[0][0]-arg[1][0])+1;
+            var width = Math.abs(arg[0][1]-arg[1][1])+1;
+            var sum = 0.0;
+            var count = 0;
+            for (var i = 0; i < height; i++) {
+                for (var j = 0; j < width; j++) {
+                    var cell = data[rowOffset - 1+i][colOffset+j];
+                    if (cell !== "" && !isNaN(cell)) {
+                        sum += parseFloat(cell);
+                        count++;
+                    }
+                }
+            }
+            var avg = sum / count;
+            out[0] = avg;
+            out[1] = avg;
+            return out;
         }
         var rest = cell_expression.substring(location);
         var value = rest.match(/^\-?\d+(\.\d*)?|^\-?\.\d+/);
@@ -263,6 +291,7 @@ function Spreadsheet(spreadsheet_id, supplied_data)
                 data_elt = document.getElementById(self.data_id);
                 data_elt.value = JSON.stringify(data);
                 event.target.innerHTML = new_value;
+                self.draw();
                 updated = true;
             }
         } else if (type == 'add' && row == -1 && column >= 0) {
