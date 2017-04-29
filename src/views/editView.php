@@ -20,10 +20,13 @@ class editView extends View {
         $sheet = $data["sheet"];
         $this->header_display->render($data);
         ?>
-        <h1><a href='./index.php'><?=$data["name"]?></a>: <?=$sheet["sheet_name"]?></h1>
-        <div>Edit Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["editHash"]?>"/></span></div>
-        <div>Read Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["readHash"]?>"/></span></div>
-        <div>File Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["fileHash"]?>"/></span></div>
+        <div id="page-block">
+        <div id="page-title"><h1 id="sheet-title" ><a id="sheet-title" href='./index.php'><?=$data["name"]?></a>: <?=$sheet["sheet_name"]?></h1></div>
+        <div id="url-labels">
+        <div>Edit Url:<span class=".url"><input id="url-text" type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["editHash"]?>"/></span></div>
+        <div>Read Url:<span class=".url"><input id="url-text" type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["readHash"]?>"/></span></div>
+        <div>File Url:<span class=".url"><input id="url-text" type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["fileHash"]?>"/></span></div>
+        </div>
         <div id="spreadsheet_edit"></div>
         <script>
         editSheet = new Spreadsheet("spreadsheet_edit", 
@@ -31,6 +34,7 @@ class editView extends View {
             {"mode":"write", "data_name":"<?=$sheet["sheet_name"]?>"}); //editable
         editSheet.draw();
         </script>
+        </div>
         <?php
         $this->footer_display->render($data);
     }
