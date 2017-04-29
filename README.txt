@@ -1,6 +1,7 @@
 SJSU Students
 David Lerner - 009454406
 Nelson Dornelas - 009657297
+Jason Springer - 006246656
 
 CS 174
 Hw 4
