@@ -6,11 +6,22 @@ use complete_sudoku\hw4\models as M;
 use complete_sudoku\hw4\controllers\Controller;
 use complete_sudoku\hw4\configs\Config;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class LandingController extends Controller
 {
 
+	
     public function view()
     {
+
+	$log = new Logger('logger');
+	$log->pushHandler(new StreamHandler('./app_data/spread.log', Logger::INFO));
+
+	$log->info('Visited Landing Page');
+	
+
         $data = ["name"=>"Web Sheets"]; //must populate
         $views=new V\LandingView();
         $views->render($data);

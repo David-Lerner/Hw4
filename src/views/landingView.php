@@ -18,13 +18,17 @@ class landingView extends View{
     {
         $this->header_display->render($data);
         ?>
-        <h1><a href='./index.php'><?=$data["name"]?></a></h1> 
-        <form action="index.php" onsubmit="return validateForm()" method="GET">
-            <input type="hidden" name="c" value="landing" />
-            <input type="hidden" name="m" value="submit" />
-            <input type="text" id="name-code-field" name="arg1"  placeholder="New Sheet Name or Code" />
-            <input type="submit" value="Go">
-        </form>
+        <div id="page-block">
+            <h1 id="page-title"<a href='./index.php'><?=$data["name"]?></a></h1> 
+            <div id="validate-form">
+                <form action="index.php" onsubmit="return validateForm()" method="GET">
+                    <input type="hidden" name="c" value="landing" />
+                    <input type="hidden" name="m" value="submit" />
+                    <input type="text" id="name-code-field" name="arg1"  placeholder="New Sheet Name or Code" />
+                    <input type="submit" value="Go">
+                </form>
+            </div>
+        </div>  
         <script>
         function validateForm() {
             var x = document.getElementById("name-code-field").value;

@@ -20,13 +20,15 @@ class readView extends View {
         $sheet = $data["sheet"];
         $this->header_display->render($data);
         ?>
-        <h1><a href='./index.php'><?=$data["name"]?></a>: <?=$sheet["sheet_name"]?></h1>
-        <div>File Url:<span class=".url"><input type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["fileHash"]?>"/></span></div>
-        <div id="spreadsheet_read"></div>
+        <div id="page-block">
+            <div id="page-title"><h1 id="sheet-title" ><a id="sheet-title" href='./index.php'><?=$data["name"]?></a>: <?=$sheet["sheet_name"]?></h1></div>
+            <div id="url-labels">File Url:<span class=".url"><input id="url-text" type="text" disabled="disabled" value="<?=Config::BASE_URL?>/index.php?c=main&m=view&arg1=<?=$data["fileHash"]?>"/></span></div>
+            <div id="spreadsheet_read"></div>
         <script>
         readSheet = new Spreadsheet("spreadsheet_read", <?php echo json_encode($sheet["sheet_data"]); ?>); //editable
         readSheet.draw();
         </script>
+        </div>
         <?php
         $this->footer_display->render($data);
     }
