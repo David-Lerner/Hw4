@@ -12,7 +12,7 @@ class ApiController extends Controller
         //echo $_REQUEST['arg2'];
         $name = (isset($_REQUEST['arg1'])) ? filter_var($_REQUEST['arg1'], FILTER_SANITIZE_STRING) : ""; 
         //echo $input;
-        $data = json_decode($_REQUEST['arg2']);
+        $data = json_decode(html_entity_decode($_REQUEST['arg2']));
         if (is_array($data)) {
             $sheetModel = new M\SheetModel();
             $sheetModel->updateSheet($name, $data);

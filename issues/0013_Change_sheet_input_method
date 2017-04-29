@@ -1,0 +1,3 @@
+Changed the input method on editable sheets
+Assigned to: David Lerner
+Description: Modify spreadsheet.js so that the user can click on a cell to edit it like with Excel instead of prompting for an alert as per requirement r.

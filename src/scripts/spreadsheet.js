@@ -92,15 +92,19 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             table +="<tr><th style='min-width:1.1in;text-align:right;'>" +
                 delete_button + (i + 1) + add_button + "</th>";
             delete_button = pre_delete_button;
-            for (var j = 0; j < width; j++) {
-                var item = "";
+            for (var j = 0; j < width; j++) {         
+                var read = "";
+                var write = "";
                 if (typeof data[i][j] == 'string') {
-                    item = data[i][j];
-                    if (item.charAt(0) == '=') {
-                        item = self.evaluateCell(item.substring(1), 0)[1];
+                    read = data[i][j];
+                    write = data[i][j];
+                    if (read.charAt(0) == '=') {
+                        read = self.evaluateCell(read.substring(1), 0)[1];
                     }
                 }
-                table += "<td>" + item + "</td>";
+                var label = '<label id="label'+i+'-'+j+'">'+read+'</label>';
+                var input = '<input type="text" id="input'+i+'-'+j+'" style="display:none" value="'+write+'" />';
+                table += "<td>" + label + input + "</td>";
             }
             table += "</tr>";
         }
@@ -278,22 +282,18 @@ function Spreadsheet(spreadsheet_id, supplied_data)
             (event.target.innerHTML == "-") ? 'delete' :'cell';
         var target = (type == 'cell') ? event.target :
             event.target.parentElement;
+        if (target.tagName === "INPUT" || target.tagName === "LABEL") {
+            target = target.parentElement;
+        }
         var row = target.parentElement.rowIndex - 1;
         var column = target.cellIndex - 1;
         var length = data.length;
         var width = data[0].length;
         var updated = false;
         if (row >= 0 && column >= 0) {
-            var new_value = prompt(self.letterRepresentation(column) +
-                (row + 1), data[row][column]);
-            if (new_value != null) {
-                data[row][column] = new_value;
-                data_elt = document.getElementById(self.data_id);
-                data_elt.value = JSON.stringify(data);
-                event.target.innerHTML = new_value;
-                self.draw();
-                updated = true;
-            }
+            document.getElementById("label"+row+"-"+column).style.display = "none";
+            document.getElementById("input"+row+"-"+column).style.display = "block";
+            document.getElementById("input"+row+"-"+column).focus();
         } else if (type == 'add' && row == -1 && column >= 0) {
             for (var i = 0; i < length; i++) {
                 for (var j = width; j > column + 1; j--) {
@@ -353,7 +353,49 @@ function Spreadsheet(spreadsheet_id, supplied_data)
                         break;
                 }
             };
-            request.open("GET", "index.php?c=api&m=update&arg1="+self.data_name+"&arg2="+encodeURI(JSON.stringify(data)), true);
+            request.open("GET", "index.php?c=api&m=update&arg1="+self.data_name+"&arg2="+encodeURIComponent((JSON.stringify(data)), true));
+            request.send();
+        }
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    
+    //new event handling when leaving an editable cell
+    p.leaveCell = function (event) {
+        var type = 'cell';
+        var target = event.target.parentElement;
+        var row = target.parentElement.rowIndex - 1;
+        var column = target.cellIndex - 1;
+        var length = data.length;
+        var width = data[0].length;
+        var updated = false;
+        if (row >= 0 && column >= 0) {
+            document.getElementById("label"+row+"-"+column).style.display = "block";
+            document.getElementById("input"+row+"-"+column).style.display = "none";         
+            var new_value = document.getElementById("input"+row+"-"+column).value;
+            if (new_value != null) {
+                data[row][column] = new_value;
+                data_elt = document.getElementById(self.data_id);
+                data_elt.value = JSON.stringify(data);
+                event.target.innerHTML = new_value;
+                self.draw();
+                updated = true;
+            }
+        } 
+        if (updated) {
+            document.getElementById(spreadsheet_id+"-status").innerHTML = "Sending Request...";
+            request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                switch(request.readyState) {
+                    case 1:
+                        document.getElementById(spreadsheet_id+"-status").innerHTML = "Sending Request...";
+                        break;
+                    case 4:
+                        document.getElementById(spreadsheet_id+"-status").innerHTML = request.responseText;
+                        break;
+                }
+            };
+            request.open("GET", "index.php?c=api&m=update&arg1="+self.data_name+"&arg2="+encodeURIComponent((JSON.stringify(data)), true));
             request.send();
         }
         event.stopPropagation();
@@ -361,5 +403,6 @@ function Spreadsheet(spreadsheet_id, supplied_data)
     }
     if (this.mode == 'write') {
         container.addEventListener("click", self.updateCell, true);
+        container.addEventListener("blur", self.leaveCell, true);
     }
 }
