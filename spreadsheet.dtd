@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE spreadsheet [
+
+<!ELEMENT spreadsheet (row+)>
+<!ELEMENT row (cell+)>
+<!ELEMENT cell (#PCDATA)>
+
+<!ATTLIST spreadsheet name CDATA #REQUIRED>
+]>

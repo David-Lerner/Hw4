@@ -36,7 +36,31 @@ class MainController extends Controller
                 $views->render($data);
 		$log->info('Visited Read Page');
             } else {
-                //display xml;
+                //print_r($data['sheet']);
+                $xml = 
+'<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE spreadsheet [
+
+<!ELEMENT spreadsheet (row+)>
+<!ELEMENT row (cell+)>
+<!ELEMENT cell (#PCDATA)>
+
+<!ATTLIST spreadsheet name CDATA #REQUIRED>
+]>
+';
+                $xml .= '<spreadsheet name="' . $sheet["sheet_name"] . '">';
+                foreach($sheet["sheet_data"] as $key=>$val){
+                    $xml .= '<row>';
+                    foreach($val as $k=>$v){
+                       $xml .= '<cell>';
+                       $xml .= htmlspecialchars($v);
+                       $xml .= '</cell>';
+                    }
+                    $xml .= '</row>';
+                }
+                $xml .= '</spreadsheet>';
+                header('Content-type: text/xml');
+                echo $xml;
             }
         } else {
 		
